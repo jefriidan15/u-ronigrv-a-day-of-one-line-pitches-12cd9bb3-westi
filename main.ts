@@ -17,6 +17,13 @@ const ENTRY =
   "coding, no cost to start, and nothing to lose if you change " +
   "your mind.";
 
+// Gate: the entry must be one sentence of 1-240 characters, not only
+// whitespace, or the scorer gives it a Valid column of 0 and it is
+// never judged. Fail loudly instead of writing an invalid entry.
+if (ENTRY.length < 1 || ENTRY.length > 240 || ENTRY.trim().length === 0) {
+  throw new Error(`entry is ${ENTRY.length} characters, must be 1-240`);
+}
+
 const outDir = process.env.OUTPUT_DIR ?? "/output";
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, "entry.txt"), ENTRY, "utf8");
